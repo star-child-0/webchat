@@ -31,9 +31,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 SECRET_KEY = 'django-insecure-cge_%hzceyoggv!yuvsq&p!hw1c6v%g87_yal7!$diawnf@dpt'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost']
 
 
 # Application definition
@@ -79,7 +79,14 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'webchat.wsgi.application'
 ASGI_APPLICATION = "webchat.asgi.application"
-
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+        },
+    },
+}
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases

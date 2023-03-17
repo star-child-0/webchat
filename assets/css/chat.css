@@ -1,0 +1,79 @@
+#messages{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	overflow-y: auto;
+}
+
+.message{
+	/* border: 1px solid #bebebe; */
+	box-shadow: 0px 2px #bebebe;
+	padding: 6px 8px 8px 9px;
+	display: flex;
+	flex-direction: column;
+	border-radius: 10px;
+	width: fit-content;
+	margin-right: auto;
+	margin: 5px auto 0 0;
+	background: white;
+}
+.message:first-child{
+	margin-top: 20px;
+}
+.message:last-child{
+	margin-bottom: 10px;
+}
+[my-msg]{
+	background: #d9fdd3;
+	margin-left: auto;
+	margin-right: 0;
+}
+.msg-sender{
+	font-size: 14px;
+	font-weight: bold;
+}
+.msg-text img{
+	max-width: 100%;
+}
+.msg-time{
+	font-size: 12px;
+	text-align: right;
+}
+
+#textbox{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	padding: 10px;
+	position: fixed;
+	bottom: 0px;
+	left: 0px;
+	background: #f0f2f5;
+}
+#textbox button{
+	border: none;
+	background: none;
+	outline: none;
+	cursor: pointer;
+	width: fit-content;
+	height: fit-content;
+}
+#textbox button img{
+	width: 40px;
+	height: 40px;
+	background: #d9d9d9;
+	border-radius: 50px;
+	padding: 5px;
+	box-shadow: 0px 2px #c1c1c1;
+}
+#new-msg{
+	resize: none;
+}
+
+hr{
+	display: none;
+}
+.container-fluid {
+	background: aliceblue;
+}

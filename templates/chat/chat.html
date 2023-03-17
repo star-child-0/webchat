@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load common_template_tags %}
+{% load staticfiles %}
+
+{% block title_block %}
+	{% translate request.user.language "ASSISTANCE" %}
+{% endblock %}
+
+{% block body_block %}
+	<link href="{% static "css/chat.css" %}?{% now 'U' %}" rel="stylesheet"/>
+
+	<div id="chat">
+		<div id="messages">
+			{% for s in stages %}
+				<div class="message" {% if s.author == request.user %}my-msg{% endif %}>
+					<div class="msg-sender">
+						{{ s.author }}
+					</div>
+
+					<div class="msg-text">
+						{{ s.message }}
+					</div>
+
+					<div class="msg-time">
+						{{ s.date }}
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+
+		<div id="textbox">
+			<button id="attach-btn">
+				<img src="{% static 'images/Attachment.png' %}">
+			</button>
+
+			<textarea id="new-msg" class="form-control" rows="1" maxlength="100" onkeyup="msg_fit(this)"></textarea>
+
+			<button id="send-btn">
+				<img src="{% static 'images/Send.png' %}">
+			</button>
+		</div>
+	</div>
+{% endblock %}
+
+{% block footer_block %}
+{% endblock %}
+
+{% block extrascripts %}
+	<script src="{% static "js/chat.js" %}?{% now 'U' %}"></script>
+{% endblock %}

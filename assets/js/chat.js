@@ -1,7 +1,5 @@
 $(document).ready(function(){
 	msg_fit(document.getElementById("new-msg"));
-
-	$("#overlay").hide();
 });
 
 function msg_fit(that){

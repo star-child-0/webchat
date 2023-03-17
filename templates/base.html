@@ -6,7 +6,7 @@
 		<meta charset="utf-8">
 
 		<!-- Title -->
-		<link rel="shortcut icon" href="{% static 'favicon.ico' %}"/>
+		<link rel="shortcut icon" href="{% static 'favicon.ico' %}?{% now 'U' %}"/>
 		<title>
 			{% block title_block %}
 			{% endblock %}
@@ -30,7 +30,7 @@
 		<!-- Scripts -->
 		{% block scripts %}
 			<script src="{% static "jquery/jquery-3.6.3.min.js" %}"></script>
-			<script src="{% static "js/common.js" %}"></script>
+			<script src="{% static "js/common.js" %}?{% now 'U' %}"></script>
 		{% endblock %}
 
 		{% block extrascripts %}

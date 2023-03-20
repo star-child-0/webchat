@@ -2,27 +2,40 @@
 {% load common_template_tags %}
 {% load staticfiles %}
 
-{% block title_block %}
-	{% translate request.user.language "ASSISTANCE" %}
-{% endblock %}
-
 {% block body_block %}
 	<link href="{% static "css/chat.css" %}?{% now 'U' %}" rel="stylesheet"/>
 
 	<div id="chat">
 		<div id="messages">
 			{% for s in stages %}
-				<div class="message" {% if s.author == request.user %}my-msg{% endif %}>
+				<div class="message"
+				{% if s.operator == request.user %}my-msg{% endif %}
+				{% if s.template == "Attachment" or s.template == "Photo" %}attach-msg
+				{% elif s.template == "Engage" %}engage-msg{% endif %}>
 					<div class="msg-sender">
-						{{ s.author }}
+						{{ s.operator }}
 					</div>
 
 					<div class="msg-text">
-						{{ s.message }}
+						{% if s.template == "Attachment" or s.template == "Photo" %}
+							{% if s.label %}
+								{{ s.label }}
+							{% endif %}
+
+							{% if s.file %}
+								<a href="{{ MEDIA_URL }}{{ s.file }}">
+									<img src="{% static 'images/Attachment.png' %}">
+								</a>
+							{% endif %}
+						{% elif s.template == "Engage" %}
+							{% translate request.user.language "UserEngaged" %}
+						{% elif s.label %}
+							{{ s.note }}
+						{% endif %}
 					</div>
 
 					<div class="msg-time">
-						{{ s.date }}
+						{{ s.begin }}
 					</div>
 				</div>
 			{% endfor %}
@@ -33,13 +46,22 @@
 				<img src="{% static 'images/Attachment.png' %}">
 			</button>
 
-			<textarea id="new-msg" class="form-control" rows="1" maxlength="100" onkeyup="msg_fit(this)"></textarea>
+			<textarea id="new-msg" class="form-control" rows="1" onkeyup="msg_fit(this)"></textarea>
 
 			<button id="send-btn">
 				<img src="{% static 'images/Send.png' %}">
 			</button>
 		</div>
 	</div>
+
+	<style>
+		hr{
+			display: none;
+		}
+		.container-fluid {
+			background: aliceblue;
+		}
+	</style>
 {% endblock %}
 
 {% block footer_block %}

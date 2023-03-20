@@ -5,6 +5,9 @@ $(document).ready(function(){
 function msg_fit(that){
 	that.style.height = "1px";
 	that.style.height = 5 + that.scrollHeight + "px";
-	$("#messages").height($(window).height() - $("#textbox").height() - 70);
+	if (mobileCheck())
+		$("#messages").height($(window).height() - $("#textbox").height() - 70);
+	else
+		$("#messages").height($(window).height() - $("#textbox").height() - 48);
 	document.querySelector(".message:last-child").scrollIntoView();
 }

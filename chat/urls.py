@@ -4,7 +4,9 @@ from chat import views
 
 app_name = 'chat'
 urlpatterns = [
-	path('', views.index, name='index'),
-	path('index', views.index, name='index'),
-	path("<str:room_name>/", views.room, name="room"),
+	path("rooms/", views.rooms, name="rooms"),
+	path("rooms/<str:room_name>/", views.room, name="room"),
+    
+	path("chat/", views.chat, name="chat"),
+	path("ajax_send_message", views.ajax_send_message, name="ajax_send_message"),
 ]

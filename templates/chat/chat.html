@@ -1,67 +1,63 @@
 {% extends 'base.html' %}
-{% load common_template_tags %}
-{% load staticfiles %}
+{% load static %}
+
+{% block title_block %}
+	Chat
+{% endblock %}
 
 {% block body_block %}
 	<link href="{% static "css/chat.css" %}?{% now 'U' %}" rel="stylesheet"/>
 
 	<div id="chat">
 		<div id="messages">
-			{% for s in stages %}
+			{% for m in messages %}
 				<div class="message"
-				{% if s.operator == request.user %}my-msg{% endif %}
-				{% if s.template == "Attachment" or s.template == "Photo" %}attach-msg
-				{% elif s.template == "Engage" %}engage-msg{% endif %}>
+				{% if m.author == request.user %}my-msg{% endif %}
+				{% if m.file %}attach-msg{% endif %}>
 					<div class="msg-sender">
-						{{ s.operator }}
+						{{ m.author }}
 					</div>
 
 					<div class="msg-text">
-						{% if s.template == "Attachment" or s.template == "Photo" %}
-							{% if s.label %}
-								{{ s.label }}
-							{% endif %}
+						{% if m.text %}
+							{{ m.text }}
+						{% endif %}
 
-							{% if s.file %}
-								<a href="{{ MEDIA_URL }}{{ s.file }}">
-									<img src="{% static 'images/Attachment.png' %}">
-								</a>
-							{% endif %}
-						{% elif s.template == "Engage" %}
-							{% translate request.user.language "UserEngaged" %}
-						{% elif s.label %}
-							{{ s.note }}
+						{% if m.file %}
+							<a target="_blank" href="{{ MEDIA_URL }}{{ m.file }}">
+								<img src="{% static 'images/Attachment.png' %}">
+							</a>
 						{% endif %}
 					</div>
 
 					<div class="msg-time">
-						{{ s.begin }}
+						{{ m.time }}
 					</div>
 				</div>
 			{% endfor %}
 		</div>
 
 		<div id="textbox">
-			<button id="attach-btn">
-				<img src="{% static 'images/Attachment.png' %}">
-			</button>
+			<div id="filearea">
+				<input type="file" id="new-msg-file" accept="image/*" hidden>
+				<button id="rem-file">
+					<img src="{% static 'images/Trash.png' %}">
+				</button>
+			</div>
 
-			<textarea id="new-msg" class="form-control" rows="1" onkeyup="msg_fit(this)"></textarea>
+			<div id="the-rest">
+				<button id="attach-btn">
+					<img src="{% static 'images/Attachment.png' %}">
+				</button>
 
-			<button id="send-btn">
-				<img src="{% static 'images/Send.png' %}">
-			</button>
+				<textarea id="new-msg" class="form-control" rows="1" onkeyup="msg_fit(this)"></textarea>
+
+				<button id="send-btn">
+					<img src="{% static 'images/Send.png' %}">
+				</button>
+			</div>
 		</div>
 	</div>
-
-	<style>
-		hr{
-			display: none;
-		}
-		.container-fluid {
-			background: aliceblue;
-		}
-	</style>
 {% endblock %}
 
 {% block footer_block %}
@@ -69,4 +65,86 @@
 
 {% block extrascripts %}
 	<script src="{% static "js/chat.js" %}?{% now 'U' %}"></script>
+
+	<script>
+		function ajax_send_message(){
+			let message = $("#new-msg").val();
+			let file = document.getElementById("new-msg-file").files[0];
+			let has_file = 0;
+			if (file)
+				has_file++;
+
+			var formData = new FormData();
+			formData.append("csrfmiddlewaretoken", "{{ csrf_token }}");
+			formData.append("message", message);
+			formData.append("has_file", has_file);
+			formData.append("file", file);
+
+			console.log('Ajax add message')
+			$.ajax({
+				type: "POST",
+				enctype: 'multipart/form-data',
+				url: "{% url "chat:ajax_send_message" %}",
+				data: formData,
+				processData: false,
+				contentType: false,
+				cache: false,
+				timeout: 10000,
+				success: function (data) {
+					if (data.result == 0){
+						console.log('Success');
+						add_message(data.filename);
+					}
+					else console.log('Failure');
+				},
+				error: function (e) {
+					console.log('Error');
+				}
+			});
+		}
+
+		function add_message(filename){
+			var msg = document.createElement("div");
+			var currentdate = new Date();
+			var date = currentdate.getDate() + "/"
+						+ (currentdate.getMonth()+1) + " "
+						+ currentdate.getHours() + ":"
+						+ currentdate.getMinutes();
+
+			msg.className = "message"
+			setAttributes(msg, {"my-msg": ""});
+
+			if (document.getElementById("new-msg-file").files[0])
+				var message = `
+				<div class="msg-text">
+					_message_
+					<a target="_blank" href="{{ MEDIA_URL }}_file_">
+						<img src="{% static 'images/Attachment.png' %}">
+					</a>
+				</div>`.replace("_message_", $("#new-msg").val()).replace("_file_", filename);
+			else
+				var message = `
+				<div class="msg-text">
+					_message_
+				</div>`.replace("_message_", $("#new-msg").val());
+
+			msg.innerHTML = `
+				<div class="msg-sender">
+					_user_
+				</div>
+
+				<div class="msg-text">
+					_message_
+				</div>
+
+				<div class="msg-time">
+					_date_
+				</div>`.replace("_user_", "{{ request.user.username }}").replace("_message_", message).replace("_date_", date);
+
+			$("#messages").append(msg);
+			clear_img_preview();
+			$("#new-msg").val("");
+			goto_last_msg();
+		}
+	</script>
 {% endblock %}

@@ -8,6 +8,7 @@ class Message(models.Model):
 	author = models.ForeignKey(User, on_delete=models.CASCADE)
 	file = models.FileField(upload_to='uploads/', blank=True, null=True)
 	time = models.DateTimeField(auto_now_add=True)
+	blimpo = models.CharField(max_length=100, blank=True, null=True)
 
 	class Meta:
 		verbose_name_plural = "Messages"

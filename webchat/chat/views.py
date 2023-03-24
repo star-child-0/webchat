@@ -18,6 +18,7 @@ def room(request, room_name):
 	context_dict['room_name'] = room_name
 	return render(request, "chat/room.html", context_dict)
 
+
 @login_required
 def chat(request):
 	context_dict = {}

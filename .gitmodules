@@ -1,0 +1,3 @@
+[submodule "webchat/webchat"]
+	path = webchat/webchat
+	url = https://github.com/star-child-0/webchat-settings

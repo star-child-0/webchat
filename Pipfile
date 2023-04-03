@@ -36,3 +36,7 @@ zope.interface= "==6.0"
 
 [requires]
 python_version = "3.8"
+
+[scripts]
+greeting = "sh ./bin/scripts/greeting.sh"
+install = "sh bin/scripts/install.sh"

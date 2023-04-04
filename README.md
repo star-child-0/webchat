@@ -16,9 +16,7 @@ pipenv install
 ```
 pipenv run install
 ```
-
 or
-
 ```
 pipenv install --skip-lock
 ```

@@ -1,1 +1,1 @@
-pip install -r 'bin/scripts/requirements.txt'
+pipenv install --skip-lock

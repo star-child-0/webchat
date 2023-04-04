@@ -1,3 +1,4 @@
+clear
 echo "Signing out..."
 
 git add *

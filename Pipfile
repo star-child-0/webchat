@@ -38,7 +38,8 @@ zope.interface= "==6.0"
 python_version = "3.8"
 
 [scripts]
-greeting = "sh ./bin/scripts/greeting.sh"
-install = "sh bin/scripts/install.sh"
-freeze = "sh bin/scripts/freeze.sh"
-bye = "sh ./bin/scripts/signout.sh"
+greeting = "sh ./.bin/scripts/greeting.sh"
+install = "sh .bin/scripts/install.sh"
+freeze = "sh .bin/scripts/freeze.sh"
+signout = "sh .bin/scripts/signout.sh"
+bye = "sh .bin/scripts/signout.sh"

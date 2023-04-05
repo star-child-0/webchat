@@ -16,13 +16,11 @@ function add_commit_push(){
 }
 
 for submodule in $submodules; do
-	if [[ " ${avoid_submodules[*]} " == *" ${submodule} "* ]]; then
-		continue
-	else
+	if ! [[ " ${avoid_submodules[*]} " == *" ${submodule} "* ]]; then
 		cd $submodule
 		add_commit_push
 		cd ..
-	fi	
+	fi
 done
 
 add_commit_push

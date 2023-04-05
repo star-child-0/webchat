@@ -1,7 +1,7 @@
 clear
 echo "Signing out..."
 
-cd webchat
+cd webchat/webchat
 git add --all > /dev/null 2>&1
 git commit -m "See you space cowboy." > /dev/null 2>&1
 git push origin master > /dev/null 2>&1

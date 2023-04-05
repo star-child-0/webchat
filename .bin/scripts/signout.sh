@@ -3,8 +3,8 @@
 #automatically sign out of all git repos
 submodules=$(git submodule | awk '{print $2}')
 
-#specify the submodules you don't want to push to
-avoid_submodules=("webchat")
+#specify the path of the submodules you wish to not push
+avoid_submodules=("webchat/webchat")
 
 clear
 echo "Signing out..."
@@ -16,7 +16,7 @@ function add_commit_push(){
 }
 
 for submodule in $submodules; do
-	if [[ " ${avoid_submodules[@]} " =~ " ${submodule} " ]]; then
+	if [[ " ${avoid_submodules[*]} " == *" ${submodule} "* ]]; then
 		continue
 	else
 		cd $submodule

@@ -8,7 +8,7 @@ avoid_submodules=("")
 
 #if alias for signout doesen't exist, create it
 if alias 'byebye' >/dev/null 2>&1; then 
-	alias "byebye"="pipenv run bye";
+	alias byebye="pipenv run bye";
 fi
 
 clear

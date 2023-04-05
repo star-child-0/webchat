@@ -18,11 +18,11 @@ function add_commit_push(){
 for submodule in $submodules; do
 	if [[ " ${avoid_submodules[@]} " =~ " ${submodule} " ]]; then
 		continue
-	fi
-
-	cd $submodule
-	add_commit_push
-	cd ..
+	else
+		cd $submodule
+		add_commit_push
+		cd ..
+	fi	
 done
 
 add_commit_push

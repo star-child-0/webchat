@@ -6,6 +6,11 @@ submodules=$(git submodule | awk '{print $2}')
 #specify the path of the submodules you wish to not push
 avoid_submodules=("")
 
+#if alias for signout doesen't exist, create it
+if alias 'byebye' >/dev/null 2>&1; then 
+	alias "byebye"="pipenv run bye";
+fi
+
 clear
 echo "Signing out..."
 

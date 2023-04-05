@@ -4,7 +4,7 @@
 submodules=$(git submodule | awk '{print $2}')
 
 #specify the path of the submodules you wish to not push
-avoid_submodules=("webchat/webchat")
+avoid_submodules=("")
 
 clear
 echo "Signing out..."

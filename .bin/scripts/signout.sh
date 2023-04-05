@@ -1,5 +1,7 @@
 #!/bin/bash
 
+submodules=$(git submodule | awk '{print $2}')
+
 clear
 echo "Signing out..."
 
@@ -9,17 +11,10 @@ function add_commit_push(){
 	git push origin master > /dev/null 2>&1
 }
 
-for file in */; do
-	if [ "$file" == "webchat/" ]; then
-		if [ -d "$file/webchat" ]; then
-			cd $file/webchat
-			add_commit_push
-		else
-			cd $file
-			add_commit_push
-		fi
-		cd ..
-	fi
+for submodule in $submodules; do
+	cd $submodule
+	add_commit_push
+	cd ..
 done
 
 add_commit_push
